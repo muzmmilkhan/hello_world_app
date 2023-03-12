@@ -23,3 +23,5 @@ for container in pod.spec.containers:
 def hello_world():
     return 'Hello from container {}'.format(container_name)
 
+if __name__ == "__main__":
+     app.run(host='0.0.0.0', port=5000)
