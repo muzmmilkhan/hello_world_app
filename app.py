@@ -1,11 +1,13 @@
+import subprocess
 from flask import Flask
 
 app = Flask(__name__)
 
 host_name = None
 try:
-    command = ['/bin/bash', '-c', 'hostname']  # Bash command to get the hostname of the pod's node
-    host_name = command  # Get the output of the command and strip newline characters
+    # Run the `hostname` command in a shell and capture its output
+    output = subprocess.check_output(['hostname'], shell=True) 
+    host_name = output.decode() 
 except Exception as e:
     # Handle error if running outside of Kubernetes cluster
     pass
