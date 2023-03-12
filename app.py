@@ -7,17 +7,18 @@ config.load_incluster_config()  # Load the Kubernetes configuration from the clu
 
 api_instance = client.CoreV1Api()
 
-pod_name = config.pod_name  # Get the name of the current pod
+pod_name = None
+try:
+    pod_name = open("/var/run/secrets/kubernetes.io/serviceaccount/pod.name", "r").read()
+except Exception as e:
+    # Handle error if running outside of Kubernetes cluster
+    pass
 
-pod = api_instance.read_namespaced_pod(name=pod_name, namespace='default')
-
-container_name = None
-
-for container in pod.spec.containers:
-    if container.env is not None:
-        for env_var in container.env:
-            if env_var.name == 'MY_CONTAINER_NAME_ENV_VARIABLE':
-                container_name = env_var.value
+if pod_name:
+    pod = api_instance.read_namespaced_pod(name=pod_name, namespace='default')
+    container_name = pod.spec.containers[0].name
+else:
+    container_name = None
 
 @app.route('/')
 def hello_world():
