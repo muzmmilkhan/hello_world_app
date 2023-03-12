@@ -14,11 +14,12 @@ spec:
     spec:
       containers:
         - name: flask-app
-          image: <your-docker-registry>/flask-app
+          image: gcr.io/cloudera-377714/hello_world_app
           ports:
             - containerPort: 5000
-      imagePullSecrets:
-        - name: <your-docker-registry-secret>
+          env:
+            - name: MY_CONTAINER_NAME_ENV_VARIABLE
+              value: flask-app
 ---
 apiVersion: v1
 kind: Service
