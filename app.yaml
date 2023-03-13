@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask-app
-          image: gcr.io/cloudera-377714/hello_world_app:v6
+          image: muzmmilkhan/test:v1
           ports:
             - containerPort: 5000
           env:
